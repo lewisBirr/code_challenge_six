@@ -27,7 +27,6 @@ In this way, a new jar file will be created in the target folder, e.g. target/tr
 
 ## Test the Code
 
-- remove the comment to annotation @SpringBootTest in file CucumberTest.java, so you can run the test without explicitly having the application running.
 - run src/test/java/name.lattuada.tradin.tests/CucumberTest
 
 ## Verify database content
