@@ -28,17 +28,26 @@ public class TradeSteps {
     private final RestUtility restUtility;
     private final Map<String, SecurityDTO> securityMap;
     private final Map<String, UserDTO> userMap;
-    private OrderDTO buyOrder;
-    private OrderDTO sellOrder;
+    private final Map<String, OrderDTO> orderMap;
+    public OrderDTO buyOrder;
+    public OrderDTO sellOrder;
 
     TradeSteps() {
+
         restUtility = new RestUtility();
         securityMap = new HashMap<>();
         userMap = new HashMap<>();
+        orderMap = new HashMap<>();
     }
 
+
+
     // TODO implement: Given for "one security {string} and two users {string} and {string} exist"
+    @Given("one security {string} and two users {string} and {string} exist")
     public void oneSecurityAndTwoUsers(String securityName, String userName1, String userName2) {
+        createSecurity(securityName);
+        createUser(userName1);
+        createUser(userName2);
 
     }
 
@@ -56,7 +65,9 @@ public class TradeSteps {
                 securityName,
                 price,
                 quantity);
+
     }
+
 
     @Then("a trade occurs with the price of {double} and quantity of {long}")
     public void aTradeOccursWithThePriceOfAndQuantityOf(Double price, Long quantity) {
@@ -75,6 +86,8 @@ public class TradeSteps {
                         + "/orderSellId/" + sellOrder.getId().toString(),
                 TradeDTO.class)).isInstanceOf(HttpClientErrorException.NotFound.class);
     }
+
+
 
     private void createUser(String userName) {
         UserDTO userDTO = new UserDTO();
@@ -102,8 +115,59 @@ public class TradeSteps {
                              String securityName,
                              Double price,
                              Long quantity) {
-        // TODO: implement create oder function
-        logger.info("To be implemented! ... Order created: {}");
-    }
 
+
+        // TODO: implement create oder function
+        if (orderType.name().equals("BUY")) {
+
+            OrderDTO buyOrder1 = new OrderDTO();
+            buyOrder1.setUserId(userMap.get(userName).getId());
+            buyOrder1.setType(orderType);
+            buyOrder1.setSecurityId(securityMap.get(securityName).getId());
+            buyOrder1.setPrice(price);
+            buyOrder1.setQuantity(quantity);
+            buyOrder = restUtility.post("/api/orders",buyOrder1,OrderDTO.class);
+            orderMap.put(userName,buyOrder);
+            logger.info("Order created: {}",buyOrder);
+
+            /*
+            buyOrder = new OrderDTO();
+            buyOrder.setUserId(userMap.get(userName).getId());
+            buyOrder.setType(orderType);
+            buyOrder.setSecurityId(securityMap.get(securityName).getId());
+            buyOrder.setPrice(price);
+            buyOrder.setQuantity(quantity);
+            OrderDTO buyOrderReturned = restUtility.post("/api/orders",buyOrder,OrderDTO.class);
+            orderMap.put(userName,buyOrderReturned);
+            //TradeDTO trade = restUtility.post("api/trades/orderBuyId/", buyOrder ,TradeDTO.class);
+            logger.info("Order created: {}",buyOrderReturned ); */
+
+
+        } else if (orderType.name().equals("SELL")) {
+
+            OrderDTO sellOrder1 = new OrderDTO();
+            sellOrder1.setUserId(userMap.get(userName).getId());
+            sellOrder1.setType(orderType);
+            sellOrder1.setSecurityId(securityMap.get(securityName).getId());
+            sellOrder1.setPrice(price);
+            sellOrder1.setQuantity(quantity);
+            sellOrder = restUtility.post("/api/orders",sellOrder1,OrderDTO.class);
+            orderMap.put(userName,sellOrder);
+            // TradeDTO trade = restUtility.post("api/trades/orderBuyId/", sellOrder ,TradeDTO.class);
+            logger.info("Order created: {}",sellOrder);
+
+            /*
+            sellOrder = new OrderDTO();
+            sellOrder.setUserId(userMap.get(userName).getId());
+            sellOrder.setType(orderType);
+            sellOrder.setSecurityId(securityMap.get(securityName).getId());
+            sellOrder.setPrice(price);
+            sellOrder.setQuantity(quantity);
+            OrderDTO sellOrderReturned = restUtility.post("/api/orders",sellOrder,OrderDTO.class);
+            orderMap.put(userName,sellOrderReturned);
+            // TradeDTO trade = restUtility.post("api/trades/orderBuyId/", sellOrder ,TradeDTO.class);
+            logger.info("Order created: {}",sellOrderReturned ); */
+
+        }
+    }
 }
