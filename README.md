@@ -15,7 +15,7 @@ Execute in IDE (IntelliJ)
 
 - New project
 - Get Version Control
-- paste following URL: https://github.com/maurizio-lattuada/trading.git
+- paste following URL: https://github.com/lewisBirr/code_challenge_six
 - clone it
 - Build src/main/java/name.lattuada.trading/TradingApplication
 
