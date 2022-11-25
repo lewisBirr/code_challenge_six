@@ -30,7 +30,7 @@ In this way, a new jar file will be created in the target folder, e.g. target/tr
 - run src/test/java/name.lattuada.tradin.tests/CucumberTest
 
 ## Verify database content
-When the application is running, you can check the database content with a browser: [H2 Console]([https://pages.github.com/](http://localhost:8080/h2-console/login.jsp?jsessionid=46b5dcef5d6b1d3e5b939c9922bfcd7a))..
+When the application is running, you can check the database content with a browser: [H2 Console]([https://pages.github.com/](http://localhost:8080/h2-console/login.jsp?jsessionid=46b5dcef5d6b1d3e5b939c9922bfcd7a).
 
 Here the settings to access the H2 console (values referenced in application.properties):
 
